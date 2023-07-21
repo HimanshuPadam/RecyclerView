@@ -11,7 +11,6 @@ import com.himanshu.recyclerviewactivitty.databinding.AddDialogLayoutBinding
 
 class MainActivity : AppCompatActivity() , ListClickInterface{
     var arrayList = arrayListOf<StudentData>()
-    lateinit var listClickInterface: ListClickInterface
     lateinit var layoutManager: LinearLayoutManager
     lateinit var gridLayoutManager: GridLayoutManager
     lateinit var binding: ActivityMainBinding
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        recyclerViewAdapter = RecyclerViewAdapter(arrayList,listClickInterface)
+        recyclerViewAdapter = RecyclerViewAdapter(arrayList,this)
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         gridLayoutManager = GridLayoutManager(this,2)
         binding.recyclerView.layoutManager= layoutManager
