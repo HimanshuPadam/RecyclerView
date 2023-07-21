@@ -52,11 +52,12 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
                 }
                 else {
                     arrayList.add(StudentData(dialogBinding.etName.text.toString(),dialogBinding.etRollNo.text.toString().toInt()))
+                    recyclerViewAdapter.notifyDataSetChanged()
                     dialog.dismiss()
                 }
             }
             dialog.show()
-            recyclerViewAdapter.notifyDataSetChanged()
+            //recyclerViewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
                 dialogBinding.etRollNo.error="Enter your roll no"
             } else {
                 arrayList.set(position,StudentData(dialogBinding.etName.text.toString(),dialogBinding.etRollNo.text.toString().toInt()))
+                recyclerViewAdapter.notifyDataSetChanged()
                 dialog.dismiss()
             }
         }
