@@ -4,8 +4,10 @@ import android.app.Dialog
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.himanshu.recyclerviewactivitty.databinding.ActivityMainBinding
 import com.himanshu.recyclerviewactivitty.databinding.AddDialogLayoutBinding
 
@@ -53,11 +55,11 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
                 else {
                     arrayList.add(StudentData(dialogBinding.etName.text.toString(),dialogBinding.etRollNo.text.toString().toInt()))
                     recyclerViewAdapter.notifyDataSetChanged()
+                    Toast.makeText(this, "Added successful", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
             }
             dialog.show()
-            //recyclerViewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -67,9 +69,9 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
         dialog.setCancelable(false)
         dialog.setContentView(dialogBinding.root)
         dialogBinding.btnAdd.setText("Update")
-        dialogBinding.tvName.setText("Update name")
+        dialogBinding.tvName.setText("Update name: ${arrayList[position].name}")
         dialogBinding.etName.setText("${arrayList[position].name}")
-        dialogBinding.tvRollNo.setText("Update roll no")
+        dialogBinding.tvRollNo.setText("Update roll no: ${arrayList[position].rollNo}")
         dialogBinding.etRollNo.setText("${arrayList[position].rollNo}")
         dialogBinding.btnAdd.setOnClickListener {
             if (dialogBinding.etName.text.toString().isNullOrEmpty()) {
@@ -79,6 +81,7 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
             } else {
                 arrayList.set(position,StudentData(dialogBinding.etName.text.toString(),dialogBinding.etRollNo.text.toString().toInt()))
                 recyclerViewAdapter.notifyDataSetChanged()
+                Toast.makeText(this, "Updated successfully", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
         }
@@ -87,7 +90,16 @@ class MainActivity : AppCompatActivity() , ListClickInterface{
     }
 
     override fun onClickDelete(position: Int) {
+        var deletedItem=arrayList[position]
         arrayList.removeAt(position)
         recyclerViewAdapter.notifyDataSetChanged()
+        Snackbar.make(binding.root, "Deleted successfully",Snackbar.LENGTH_LONG)
+            .setAction("Undo"){
+                arrayList.add(position,deletedItem)
+                recyclerViewAdapter.notifyDataSetChanged()
+                Toast.makeText(this, "Undo successfullly done", Toast.LENGTH_SHORT).show()
+            }
+            .show()
+        Toast.makeText(this, "Deleted successfully", Toast.LENGTH_SHORT).show()
     }
 }
